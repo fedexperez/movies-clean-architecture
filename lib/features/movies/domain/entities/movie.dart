@@ -51,5 +51,6 @@ class Movie extends Equatable {
         video,
         voteAverage,
         voteCount,
+        heroId
       ];
 }
