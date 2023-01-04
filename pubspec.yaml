@@ -43,6 +43,7 @@ dependencies:
   card_swiper: ^2.0.4
   http: ^0.13.5
   flutter_launcher_icons: ^0.10.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
