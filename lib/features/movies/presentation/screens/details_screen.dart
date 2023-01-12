@@ -1,10 +1,7 @@
-import 'package:clean_architecture_movies/features/movies/presentation/blocs/movies/movies_bloc.dart';
-import 'package:clean_architecture_movies/injection_container.dart';
 import 'package:flutter/material.dart';
 
 import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/widgets/casting_cards.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key? key}) : super(key: key);

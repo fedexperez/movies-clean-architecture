@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:clean_architecture_movies/features/movies/data/models/models.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:clean_architecture_movies/core/helpers/debouncer.dart';
 import 'package:clean_architecture_movies/core/errors/exceptions.dart';
+import 'package:clean_architecture_movies/core/helpers/debouncer.dart';
 import 'package:clean_architecture_movies/features/movies/data/models/models.dart';
 
 abstract class MovieRemoteDataSource {

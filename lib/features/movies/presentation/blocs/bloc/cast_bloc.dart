@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import 'package:clean_architecture_movies/features/movies/domain/entities/cast.dart';
 import 'package:clean_architecture_movies/features/movies/domain/usecases/get_credits_response.dart';
-import 'package:equatable/equatable.dart';
 
 part 'cast_event.dart';
 part 'cast_state.dart';

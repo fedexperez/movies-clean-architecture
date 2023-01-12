@@ -1,11 +1,11 @@
-import 'package:clean_architecture_movies/features/movies/domain/entities/cast.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:clean_architecture_movies/core/errors/exceptions.dart';
+import 'package:clean_architecture_movies/core/errors/failures.dart';
 import 'package:clean_architecture_movies/core/platform/network_info.dart';
 import 'package:clean_architecture_movies/features/movies/data/datasources/movie_remote_data_source.dart';
+import 'package:clean_architecture_movies/features/movies/domain/entities/cast.dart';
 import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
-import 'package:clean_architecture_movies/core/errors/failures.dart';
 import 'package:clean_architecture_movies/features/movies/domain/repositories/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
