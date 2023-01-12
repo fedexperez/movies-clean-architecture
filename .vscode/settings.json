@@ -1,3 +1,12 @@
-{
-    "dart.flutterSdkPath": "/Users/federico.perez/Documents/code/training/music_player/.fvm/flutter_sdk"
-}
+
+    {
+        "dart.flutterSdkPath": ".fvm/flutter_sdk",
+        // Remove .fvm files from search
+        "search.exclude": {
+          "**/.fvm": true
+        },
+        // Remove from file watching
+        "files.watcherExclude": {
+          "**/.fvm": true
+        }
+      }

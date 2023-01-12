@@ -22,7 +22,7 @@ class PopularMoviesModel extends PopularMovies {
       PopularMoviesModel(
         page: json["page"],
         results: List<MovieModel>.from(json["results"].map((x) {
-          return MovieModel.fromMap(x);
+          return MovieModel.fromMapCustomImpl(x, 'slider');
         })),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],

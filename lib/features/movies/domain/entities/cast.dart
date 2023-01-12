@@ -33,6 +33,14 @@ class Cast extends Equatable {
     this.job,
   });
 
+  get fullProfilePath {
+    if (profilePath != null) {
+      return 'https://image.tmdb.org/t/p/w500$profilePath';
+    }
+
+    return 'https://i.stack.imgur.com/GNhxO.png';
+  }
+
   @override
   List<Object?> get props => [
         adult,

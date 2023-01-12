@@ -6,12 +6,12 @@ import 'package:clean_architecture_movies/features/movies/domain/entities/movie.
 import 'package:clean_architecture_movies/features/movies/domain/repositories/movie_repository.dart';
 
 class GetNowPlayingMovies implements UseCase<List<Movie>, NoParams> {
-  final MovieRepository movieRepository;
+  final MovieRepository repository;
 
-  GetNowPlayingMovies(this.movieRepository);
+  GetNowPlayingMovies({required this.repository});
 
   @override
   Future<Either<Failure, List<Movie>>> call(NoParams noParams) async {
-    return await movieRepository.getNowPlayingMovies();
+    return await repository.getNowPlayingMovies();
   }
 }
