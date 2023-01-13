@@ -1,3 +1,4 @@
+import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,16 +12,16 @@ class GetSuggestionsByQuery implements UseCase<void, Params> {
   GetSuggestionsByQuery({required this.repository});
 
   @override
-  Future<Either<Failure, void>> call(Params params) async {
-    return await repository.searchMovies(params.searchTerm);
+  Future<Either<Failure, Stream<List<Movie>>>> call(Params params) async {
+    return await repository.getSuggestionsByQuery(params.query);
   }
 }
 
 class Params extends Equatable {
-  final String searchTerm;
+  final String query;
 
-  const Params({required this.searchTerm});
+  const Params({required this.query});
 
   @override
-  List<Object?> get props => [searchTerm];
+  List<Object?> get props => [query];
 }
