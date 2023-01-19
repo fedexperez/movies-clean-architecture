@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:clean_architecture_movies/core/errors/exceptions.dart';
 import 'package:clean_architecture_movies/core/helpers/debouncer.dart';
 import 'package:clean_architecture_movies/features/movies/data/models/models.dart';
+import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
 
 abstract class MovieRemoteDataSource {
   /// Calls the http://api.themoviedb.org/ endpoint.
@@ -27,7 +28,10 @@ abstract class MovieRemoteDataSource {
   /// Throws a [ServerException] for all error codes.
   Future<List<MovieModel>> searchMovies(String query);
 
-  void getSuggestionsByQuery(String searchTerm);
+  /// Calls the http://api.themoviedb.org/ endpoint.
+  ///
+  /// Throws a [ServerException] for all error codes.
+  Stream<List<Movie>> getSuggestionsByQuery(String searchTerm);
 }
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
@@ -74,12 +78,18 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   @override
   Future<List<MovieModel>> getPopularMovies() async {
-    _popularPage++;
-    final jsonData = await _getJsonData('3/movie/popular', page: _popularPage);
-    final popularMoviesResponse = PopularMoviesModel.fromJson(jsonData);
-    final popularMovies = popularMoviesResponse.results as List<MovieModel>;
-    nowPopularMovies = [...nowPopularMovies, ...popularMovies];
-    return nowPopularMovies;
+    if (_popularPage < 1000) {
+      _popularPage++;
+      final jsonData =
+          await _getJsonData('3/movie/popular', page: _popularPage);
+      final popularMoviesResponse = PopularMoviesModel.fromJson(jsonData);
+      final popularMovies = popularMoviesResponse.results as List<MovieModel>;
+      nowPopularMovies = [...nowPopularMovies, ...popularMovies];
+      print(nowPopularMovies.length);
+      return nowPopularMovies;
+    } else {
+      return nowPopularMovies;
+    }
   }
 
   @override
@@ -109,8 +119,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   }
 
   @override
-  void getSuggestionsByQuery(String searchTerm) {
-    debouncer.value = '';
+  Stream<List<MovieModel>> getSuggestionsByQuery(String searchTerm) {
     debouncer.onValue = (value) async {
       final results = await searchMovies(value);
       _suggestionsStreamController.add(results);
@@ -122,5 +131,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
     Future.delayed(const Duration(milliseconds: 301))
         .then((_) => timer.cancel());
+
+    return suggestionStream;
   }
 }

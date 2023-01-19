@@ -34,7 +34,7 @@ class CardSwipper extends StatelessWidget {
                 child: FadeInImage(
                   placeholder:
                       const AssetImage('assets/images/circle-loader.gif'),
-                  image: NetworkImage(movie.fullPosterImg),
+                  image: NetworkImage(movie.posterPath!),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -53,7 +53,8 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getSuggestionsByQuery(String searchTerm) async {
+  Future<Either<Failure, Stream<List<Movie>>>> getSuggestionsByQuery(
+      String searchTerm) async {
     networkInfo.isConnected;
     try {
       final suggestions =

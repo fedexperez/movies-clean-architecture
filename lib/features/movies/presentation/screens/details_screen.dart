@@ -16,7 +16,7 @@ class DetailsScreen extends StatelessWidget {
         slivers: [
           _CustomAppBar(
             movieTitle: movie.title,
-            movieBackdrop: movie.fullBackdropPath,
+            movieBackdrop: movie.backdropPath!,
           ),
           SliverList(
               delegate: SliverChildListDelegate([
@@ -95,8 +95,9 @@ class _PosterAndTitle extends StatelessWidget {
               child: FadeInImage(
                 placeholder:
                     const AssetImage('assets/images/circle-loader.gif'),
-                image: NetworkImage(movie.fullPosterImg),
+                image: NetworkImage(movie.posterPath!),
                 height: 150,
+                width: 100,
               ),
             ),
           ),

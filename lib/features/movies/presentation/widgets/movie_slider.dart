@@ -29,6 +29,7 @@ class _MovieSliderScreenState extends State<MovieSliderScreen> {
       if (scrollController.position.pixels <=
           scrollController.position.maxScrollExtent - 500) {
         widget.onNextPage();
+        Future.delayed(const Duration(seconds: 5));
       }
     });
   }
@@ -96,7 +97,7 @@ class _MoviePoster extends StatelessWidget {
                   placeholder:
                       const AssetImage('assets/images/circle-loader.gif'),
                   image: NetworkImage(
-                    movie.fullPosterImg,
+                    movie.posterPath!,
                   ),
                   fit: BoxFit.cover,
                   width: 130,

@@ -35,14 +35,6 @@ class CastModel extends Cast {
           job: job,
         );
 
-  get fullProfilePath {
-    if (profilePath != null) {
-      return 'https://image.tmdb.org/t/p/w500$profilePath';
-    }
-
-    return 'https://i.stack.imgur.com/GNhxO.png';
-  }
-
   factory CastModel.fromJson(String str) => CastModel.fromMap(json.decode(str));
 
   factory CastModel.fromMap(Map<String, dynamic> json) => CastModel(
@@ -53,7 +45,9 @@ class CastModel extends Cast {
         name: json["name"],
         originalName: json["original_name"],
         popularity: json["popularity"].toDouble(),
-        profilePath: json["profile_path"],
+        profilePath: (json["profile_path"] != null)
+            ? 'https://image.tmdb.org/t/p/w500${json["profile_path"]}'
+            : 'https://i.stack.imgur.com/GNhxO.png',
         castId: json["cast_id"],
         character: json["character"],
         creditId: json["credit_id"],

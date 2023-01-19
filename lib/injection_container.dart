@@ -11,8 +11,7 @@ import 'package:clean_architecture_movies/features/movies/domain/usecases/get_no
 import 'package:clean_architecture_movies/features/movies/domain/usecases/get_popular_movies.dart';
 import 'package:clean_architecture_movies/features/movies/domain/usecases/get_suggestions_by_query.dart';
 import 'package:clean_architecture_movies/features/movies/domain/usecases/search_movies.dart';
-import 'package:clean_architecture_movies/features/movies/presentation/blocs/bloc/cast_bloc.dart';
-import 'package:clean_architecture_movies/features/movies/presentation/blocs/movies/movies_bloc.dart';
+import 'package:clean_architecture_movies/features/movies/presentation/blocs/blocs.dart';
 
 final sl = GetIt.instance;
 
@@ -20,16 +19,13 @@ final sl = GetIt.instance;
 Future<void> init() async {
   ///Features
   //Bloc
-  sl.registerFactory(() => MoviesBloc(
-        getNowPlayingMovies: sl(),
-        getPopularMovies: sl(),
-        getSuggestionsByQuery: sl(),
-        searchMovies: sl(),
-      ));
+  sl.registerFactory(() => NowPlayingMoviesBloc(getNowPlayingMovies: sl()));
 
-  sl.registerFactory(() => CastBloc(
-        getCreditsResponse: sl(),
-      ));
+  sl.registerFactory(() => PopularMoviesBloc(getPopularMovies: sl()));
+
+  sl.registerFactory(() => CastBloc(getCreditsResponse: sl()));
+
+  sl.registerFactory(() => SearchBloc(getSuggestionsByQuery: sl()));
 
   //Usecases
   sl.registerLazySingleton(() => GetNowPlayingMovies(repository: sl()));

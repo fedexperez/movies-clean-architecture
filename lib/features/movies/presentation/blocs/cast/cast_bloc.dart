@@ -15,9 +15,9 @@ class CastBloc extends Bloc<CastEvent, CastState> {
       final failureOrCast =
           await getCreditsResponse(Params(movieId: event.movieId));
       failureOrCast.fold((failure) {
-        emit(const ErrorState(errorMessage: 'Server Failure'));
+        emit(const CastErrorState(errorMessage: 'Server Failure'));
       }, (cast) {
-        emit(LoadedCastState(castList: cast));
+        emit(CastLoadedState(castList: cast));
       });
     });
   }

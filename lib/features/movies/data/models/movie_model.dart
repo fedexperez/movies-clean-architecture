@@ -37,22 +37,6 @@ class MovieModel extends Movie {
           heroId: heroId,
         );
 
-  get fullPosterImg {
-    if (posterPath != null) {
-      return 'https://image.tmdb.org/t/p/w500$posterPath';
-    }
-
-    return 'https://i.stack.imgur.com/GNhxO.png';
-  }
-
-  get fullBackdropPath {
-    if (backdropPath != null) {
-      return 'https://image.tmdb.org/t/p/w500$backdropPath';
-    }
-
-    return 'https://i.stack.imgur.com/GNhxO.png';
-  }
-
   factory MovieModel.fromJson(String str) =>
       MovieModel.fromMapCustomImpl(json.decode(str), '');
 
@@ -78,14 +62,18 @@ class MovieModel extends Movie {
           Map<String, dynamic> json, String heroIdentifier) =>
       MovieModel(
         adult: json["adult"],
-        backdropPath: json["backdrop_path"],
+        backdropPath: (json["backdrop_path"] != null)
+            ? 'https://image.tmdb.org/t/p/w500${json["backdrop_path"]}'
+            : 'https://i.stack.imgur.com/GNhxO.png',
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
-        posterPath: json["poster_path"],
+        posterPath: (json["poster_path"] != null)
+            ? 'https://image.tmdb.org/t/p/w500${json["poster_path"]}'
+            : 'https://i.stack.imgur.com/GNhxO.png',
         releaseDate: json["release_date"],
         title: json["title"],
         video: json["video"],

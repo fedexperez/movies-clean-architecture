@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:clean_architecture_movies/core/router/app_routes.dart';
 import 'package:clean_architecture_movies/core/ui/themes/app_theme.dart';
-import 'package:clean_architecture_movies/features/movies/presentation/blocs/movies/movies_bloc.dart';
-import 'package:clean_architecture_movies/features/movies/presentation/screens/screen_selector.dart';
+import 'package:clean_architecture_movies/features/movies/presentation/blocs/blocs.dart';
+import 'package:clean_architecture_movies/features/movies/presentation/screens/screens.dart';
 import 'package:clean_architecture_movies/injection_container.dart';
 
 void main() async {
@@ -21,8 +21,13 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MoviesBloc>(
-          create: (context) => sl<MoviesBloc>()..add(GetMoviesEvent()),
+        BlocProvider<NowPlayingMoviesBloc>(
+          create: (context) =>
+              sl<NowPlayingMoviesBloc>()..add(const GetNowPlayingMoviesEvent()),
+        ),
+        BlocProvider<PopularMoviesBloc>(
+          create: (context) =>
+              sl<PopularMoviesBloc>()..add(const GetPopularMoviesEvent()),
         ),
       ],
       child: const MyApp(),
@@ -37,7 +42,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const ScreenSelector(),
+      home: const HomeScreen(),
       routes: AppRoutes.routes,
       theme: AppTheme.ligthTheme,
       title: 'Movies',

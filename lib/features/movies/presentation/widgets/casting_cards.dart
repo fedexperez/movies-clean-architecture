@@ -15,7 +15,7 @@ class CastingCards extends StatelessWidget {
     return BlocBuilder<CastBloc, CastState>(
       bloc: sl<CastBloc>()..add(GetCastEvent(movieId: movieId)),
       builder: (context, state) {
-        if (state is LoadedCastState) {
+        if (state is CastLoadedState) {
           return Container(
             margin: const EdgeInsets.only(bottom: 30),
             width: double.infinity,
@@ -55,7 +55,7 @@ class _CastCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: FadeInImage(
               placeholder: const AssetImage('assets/images/circle-loader.gif'),
-              image: NetworkImage(actor.fullProfilePath),
+              image: NetworkImage(actor.profilePath!),
               height: 150,
               width: 100,
               fit: BoxFit.cover,

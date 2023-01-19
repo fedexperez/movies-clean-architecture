@@ -29,6 +29,10 @@ class AppTheme {
       elevation: 0,
     )),
 
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: primary,
+    ),
+
     //Input Forms
     inputDecorationTheme: InputDecorationTheme(
         floatingLabelStyle: TextStyle(

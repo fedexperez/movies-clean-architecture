@@ -9,5 +9,7 @@ abstract class MovieRepository {
   Future<Either<Failure, List<Movie>>> getPopularMovies();
   Future<Either<Failure, List<Cast>>> getCreditsResponse(int movieId);
   Future<Either<Failure, List<Movie>>> searchMovies(String query);
-  Future<Either<Failure, void>> getSuggestionsByQuery(String searchTerm);
+  Future<Either<Failure, Stream<List<Movie>>>> getSuggestionsByQuery(
+    String searchTerm,
+  );
 }

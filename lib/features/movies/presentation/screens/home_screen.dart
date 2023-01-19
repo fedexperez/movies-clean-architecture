@@ -1,54 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
-import 'package:clean_architecture_movies/features/movies/presentation/blocs/movies/movies_bloc.dart';
+import 'package:clean_architecture_movies/core/helpers/search_delegate.dart';
+import 'package:clean_architecture_movies/features/movies/presentation/blocs/blocs.dart';
+import 'package:clean_architecture_movies/features/movies/presentation/widgets/message_display.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
-  final List<Movie> nowPlayingMovies;
-  final List<Movie> popularMovies;
-
   const HomeScreen({
     super.key,
-    required this.nowPlayingMovies,
-    required this.popularMovies,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MoviesBloc, MoviesState>(
-      builder: (context, state) {
-        final bloc = context.read<MoviesBloc>();
-        return Scaffold(
-            appBar: AppBar(
-              title: const Text('Movie Box-Office'),
-              actions: [
-                IconButton(
-                    // onPressed: (() => showSearch(
-                    //     context: context, delegate: MovieSearchDelegate())),
-                    onPressed: () {},
-                    icon: const Icon(Icons.search)),
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CardSwipper(movies: nowPlayingMovies),
-
-                  //Row of movies
-                  MovieSliderScreen(
-                    title: 'Popular',
-                    movies: popularMovies,
-                    onNextPage: () {
-                      print('nextpage no sirve');
-                      return bloc.getPopularMovies;
-                    },
-                  ),
-                ],
+    final Size size = MediaQuery.of(context).size;
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Movie Box-Office'),
+          actions: [
+            IconButton(
+                onPressed: (() => showSearch(
+                    context: context, delegate: MovieSearchDelegate())),
+                icon: const Icon(Icons.search)),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              BlocBuilder<NowPlayingMoviesBloc, NowPlayingMoviesState>(
+                builder: (context, state) {
+                  if (state is NowPlayingMoviesLoadingState) {
+                    return SizedBox(
+                      height: size.height * 0.5,
+                      width: size.width,
+                      child: Center(
+                        child: SizedBox(
+                          height: size.width * 0.7,
+                          width: size.width * 0.7,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 12,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is NowPlayingMoviesLoadedState) {
+                    return CardSwipper(movies: state.nowPlayingMovies);
+                  }
+                  if (state is NowPlayingMoviesErrorState) {
+                    return MessageDisplay(
+                      message: state.errorMessage,
+                      height: size.height * 0.5,
+                      width: size.width,
+                    );
+                  } else {
+                    return MessageDisplay(
+                      message: '',
+                      height: size.height * 0.5,
+                      width: size.width,
+                    );
+                  }
+                },
               ),
-            ));
-      },
-    );
+
+              //Row of movies
+              BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
+                builder: (context, state) {
+                  if (state is PopularMoviesLoadingState) {
+                    return SizedBox(
+                      height: 260,
+                      width: size.width,
+                      child: Center(
+                        child: SizedBox(
+                          height: size.width * 0.5,
+                          width: size.width * 0.5,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 12,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is PopularMoviesLoadedState) {
+                    final bloc = context.read<PopularMoviesBloc>();
+                    return MovieSliderScreen(
+                      title: 'Popular',
+                      movies: state.popularMovies,
+                      onNextPage: () {
+                        // return bloc.add(
+                        //   GetPopularMoviesEvent(),
+                        // );
+                      },
+                    );
+                  }
+                  if (state is PopularMoviesErrorState) {
+                    return MessageDisplay(
+                      message: state.errorMessage,
+                      height: size.height * 0.3,
+                      width: size.width,
+                    );
+                  } else {
+                    return MessageDisplay(
+                      message: '',
+                      height: size.height * 0.3,
+                      width: size.width,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }

@@ -9,6 +9,8 @@ abstract class SearchState extends Equatable {
 
 class SearchInitialState extends SearchState {}
 
+class SearchLoadingState extends SearchState {}
+
 class SearchLoadedState extends SearchState {
   final Stream<List<Movie>> movies;
 
@@ -18,10 +20,10 @@ class SearchLoadedState extends SearchState {
   List<Object> get props => [movies];
 }
 
-class ErrorState extends SearchState {
+class SearchErrorState extends SearchState {
   final String errorMessage;
 
-  const ErrorState({required this.errorMessage});
+  const SearchErrorState({required this.errorMessage});
 
   @override
   List<Object> get props => [errorMessage];

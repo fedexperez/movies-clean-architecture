@@ -22,8 +22,8 @@ class SearchResponseModel extends SearchResponse {
   factory SearchResponseModel.fromMap(Map<String, dynamic> json) =>
       SearchResponseModel(
         page: json["page"],
-        results: List<MovieModel>.from(
-            json["results"].map((x) => MovieModel.fromMap(x))),
+        results: List<MovieModel>.from(json["results"]
+            .map((x) => MovieModel.fromMapCustomImpl(x, 'search'))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
