@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clean_architecture_movies/core/errors/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:clean_architecture_movies/core/constants/constants.dart';
@@ -18,16 +19,15 @@ class LanguageLocalDataSourceImpl implements LanguageLocalDataSource {
 
   @override
   Future<LanguageModel> checkLocaleLanguage() async {
-    print('geteando el lenguaje');
     final jsonString = sharedPreferences.getString(Constants.cachedLanguage);
     if (jsonString != null) {
-      print('Si esta guardado');
-      print(jsonString);
-      return LanguageModel.fromJson(json.decode(jsonString));
+      final cachedLanguage = LanguageModel.fromJson(json.decode(jsonString));
+      return cachedLanguage;
     } else {
-      print('se feu por default');
-      const LanguageModel defaultLanguage =
-          LanguageModel(languageCode: 'en', languageName: 'English');
+      const LanguageModel defaultLanguage = LanguageModel(
+        languageCode: 'en',
+        languageName: 'English',
+      );
       sharedPreferences.setString(
         Constants.cachedLanguage,
         json.encode(defaultLanguage.toJson()),
@@ -38,14 +38,17 @@ class LanguageLocalDataSourceImpl implements LanguageLocalDataSource {
 
   @override
   Future<LanguageModel> cacheLanguage(Language languageToCache) async {
-    print('$languageToCache pal cache');
-    final LanguageModel toCache = LanguageModel(
-      languageCode: languageToCache.languageCode,
-      country: languageToCache.country,
-      languageName: languageToCache.languageName,
-    );
-    sharedPreferences.setString(
-        Constants.cachedLanguage, json.encode(toCache.toJson()));
-    return toCache;
+    if (languageToCache.toString().isNotEmpty) {
+      final LanguageModel toCache = LanguageModel(
+        languageCode: languageToCache.languageCode,
+        country: languageToCache.country,
+        languageName: languageToCache.languageName,
+      );
+      sharedPreferences.setString(
+          Constants.cachedLanguage, json.encode(toCache.toJson()));
+      return toCache;
+    } else {
+      throw CacheException();
+    }
   }
 }

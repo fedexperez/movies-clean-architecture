@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushNamed(context, 'language');
               },
               icon: const Icon(Icons.language)),
-          title: Text(AppLocalizations.of(context).appTitle),
+          title: Text(AppLocalizations.of(context).homeScreenTitle),
           actions: [
             IconButton(
                 onPressed: (() => showSearch(
