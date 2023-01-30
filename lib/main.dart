@@ -10,6 +10,7 @@ import 'package:clean_architecture_movies/core/ui/themes/app_theme.dart';
 import 'package:clean_architecture_movies/features/language/presentation/bloc/language_bloc.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/blocs/blocs.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/screens/screens.dart';
+import 'package:clean_architecture_movies/features/movies/presentation/widgets/message_display.dart';
 import 'package:clean_architecture_movies/injection_container.dart';
 
 void main() async {
@@ -74,8 +75,12 @@ class MyApp extends StatelessWidget {
           );
         }
         if (state is LanguageErrorState) {
-          print('TODO');
-          return Container();
+          final Size size = MediaQuery.of(context).size;
+          return MessageDisplay(
+            message: 'Please Restart the app',
+            height: size.width * 0.4,
+            width: size.width * 0.4,
+          );
         } else {
           return MaterialApp(
             locale: Locale(
