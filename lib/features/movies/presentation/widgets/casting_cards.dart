@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:clean_architecture_movies/features/movies/presentation/widgets/message_display.dart';
 import 'package:clean_architecture_movies/features/movies/domain/entities/cast.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/blocs/cast/cast_bloc.dart';
 import 'package:clean_architecture_movies/injection_container.dart';
@@ -29,6 +30,13 @@ class CastingCards extends StatelessWidget {
                 );
               },
             ),
+          );
+        }
+        if (state is CastErrorState) {
+          return MessageDisplay(
+            message: state.errorMessage,
+            height: 190,
+            width: double.infinity,
           );
         } else {
           return Container();

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:clean_architecture_movies/core/constants/constants.dart';
 import 'package:clean_architecture_movies/core/usecases/usecase.dart';
 import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
 import 'package:clean_architecture_movies/features/movies/domain/usecases/get_popular_movies.dart';
@@ -18,7 +19,9 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
       emit(PopularMoviesLoadingState());
       final failureOrPopularMovies = await getPopularMovies(NoParams());
       failureOrPopularMovies.fold((failure) {
-        emit(const PopularMoviesErrorState(errorMessage: 'Server Failure'));
+        emit(const PopularMoviesErrorState(
+          errorMessage: Constants.serverFailureMessage,
+        ));
       }, (movies) {
         emit(PopularMoviesLoadedState(
             popularMovies: [...event.popularMovies, ...movies]));
@@ -28,7 +31,9 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
     on<UpdatePopularMoviesEvent>((event, emit) async {
       final failureOrPopularMovies = await getPopularMovies(NoParams());
       failureOrPopularMovies.fold((failure) {
-        emit(const PopularMoviesErrorState(errorMessage: 'Server Failure'));
+        emit(const PopularMoviesErrorState(
+          errorMessage: Constants.serverFailureMessage,
+        ));
       }, (movies) {
         emit(PopularMoviesLoadedState(
             popularMovies: [...event.popularMovies, ...movies]));

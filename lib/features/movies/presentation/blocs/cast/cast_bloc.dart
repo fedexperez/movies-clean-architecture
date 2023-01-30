@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:clean_architecture_movies/core/constants/constants.dart';
 import 'package:clean_architecture_movies/features/movies/domain/entities/cast.dart';
 import 'package:clean_architecture_movies/features/movies/domain/usecases/get_credits_response.dart';
 
@@ -15,7 +16,9 @@ class CastBloc extends Bloc<CastEvent, CastState> {
       final failureOrCast =
           await getCreditsResponse(Params(movieId: event.movieId));
       failureOrCast.fold((failure) {
-        emit(const CastErrorState(errorMessage: 'Server Failure'));
+        emit(const CastErrorState(
+          errorMessage: Constants.serverFailureMessage,
+        ));
       }, (cast) {
         emit(CastLoadedState(castList: cast));
       });
