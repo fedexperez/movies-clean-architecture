@@ -6,7 +6,7 @@ import 'package:clean_architecture_movies/core/errors/failures.dart';
 import 'package:clean_architecture_movies/core/usecases/usecase.dart';
 import 'package:clean_architecture_movies/features/movies/domain/repositories/movie_repository.dart';
 
-class GetSuggestionsByQuery implements UseCase<void, Params> {
+class GetSuggestionsByQuery implements UseCase<Stream<List<Movie>>, Params> {
   final MovieRepository repository;
 
   GetSuggestionsByQuery({required this.repository});

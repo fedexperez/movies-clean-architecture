@@ -7,5 +7,6 @@ class AppRoutes {
 
   static final Map<String, Widget Function(BuildContext)> routes = {
     'details': (BuildContext context) => const DetailsScreen(),
+    'language': (BuildContext context) => const FlagDropdownScreen(),
   };
 }

@@ -26,10 +26,10 @@ class _MovieSliderScreenState extends State<MovieSliderScreen> {
     super.initState();
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels <=
-          scrollController.position.maxScrollExtent - 500) {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 50) {
         widget.onNextPage();
-        Future.delayed(const Duration(seconds: 5));
+        Future.delayed(const Duration(seconds: 2));
       }
     });
   }

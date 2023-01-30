@@ -10,15 +10,28 @@ part 'popular_movies_state.dart';
 
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   final GetPopularMovies getPopularMovies;
-  PopularMoviesBloc({required this.getPopularMovies})
-      : super(PopularMoviesInitialState()) {
+
+  PopularMoviesBloc({
+    required this.getPopularMovies,
+  }) : super(PopularMoviesInitialState()) {
     on<GetPopularMoviesEvent>((event, emit) async {
       emit(PopularMoviesLoadingState());
       final failureOrPopularMovies = await getPopularMovies(NoParams());
       failureOrPopularMovies.fold((failure) {
         emit(const PopularMoviesErrorState(errorMessage: 'Server Failure'));
       }, (movies) {
-        emit(PopularMoviesLoadedState(popularMovies: movies));
+        emit(PopularMoviesLoadedState(
+            popularMovies: [...event.popularMovies, ...movies]));
+      });
+    });
+
+    on<UpdatePopularMoviesEvent>((event, emit) async {
+      final failureOrPopularMovies = await getPopularMovies(NoParams());
+      failureOrPopularMovies.fold((failure) {
+        emit(const PopularMoviesErrorState(errorMessage: 'Server Failure'));
+      }, (movies) {
+        emit(PopularMoviesLoadedState(
+            popularMovies: [...event.popularMovies, ...movies]));
       });
     });
   }

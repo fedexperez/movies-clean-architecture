@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:clean_architecture_movies/core/errors/exceptions.dart';
 import 'package:clean_architecture_movies/core/helpers/debouncer.dart';
 import 'package:clean_architecture_movies/features/movies/data/models/models.dart';
-import 'package:clean_architecture_movies/features/movies/domain/entities/movie.dart';
 
 abstract class MovieRemoteDataSource {
   /// Calls the http://api.themoviedb.org/ endpoint.
@@ -31,7 +30,7 @@ abstract class MovieRemoteDataSource {
   /// Calls the http://api.themoviedb.org/ endpoint.
   ///
   /// Throws a [ServerException] for all error codes.
-  Stream<List<Movie>> getSuggestionsByQuery(String searchTerm);
+  Stream<List<MovieModel>> getSuggestionsByQuery(String searchTerm);
 }
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
@@ -84,9 +83,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
           await _getJsonData('3/movie/popular', page: _popularPage);
       final popularMoviesResponse = PopularMoviesModel.fromJson(jsonData);
       final popularMovies = popularMoviesResponse.results as List<MovieModel>;
-      nowPopularMovies = [...nowPopularMovies, ...popularMovies];
-      print(nowPopularMovies.length);
-      return nowPopularMovies;
+      return popularMovies;
     } else {
       return nowPopularMovies;
     }

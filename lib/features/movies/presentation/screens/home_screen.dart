@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:clean_architecture_movies/core/helpers/search_delegate.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/blocs/blocs.dart';
 import 'package:clean_architecture_movies/features/movies/presentation/widgets/message_display.dart';
@@ -16,7 +18,12 @@ class HomeScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Movie Box-Office'),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'language');
+              },
+              icon: const Icon(Icons.language)),
+          title: Text(AppLocalizations.of(context).appTitle),
           actions: [
             IconButton(
                 onPressed: (() => showSearch(
@@ -84,12 +91,13 @@ class HomeScreen extends StatelessWidget {
                   if (state is PopularMoviesLoadedState) {
                     final bloc = context.read<PopularMoviesBloc>();
                     return MovieSliderScreen(
-                      title: 'Popular',
+                      title: AppLocalizations.of(context).popular,
                       movies: state.popularMovies,
                       onNextPage: () {
-                        // return bloc.add(
-                        //   GetPopularMoviesEvent(),
-                        // );
+                        bloc.add(
+                          UpdatePopularMoviesEvent(
+                              popularMovies: state.popularMovies),
+                        );
                       },
                     );
                   }

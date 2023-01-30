@@ -13,15 +13,15 @@ class SetLocaleLanguage implements UseCase<Language, Params> {
 
   @override
   Future<Either<Failure, Language>> call(Params params) async {
-    return await repository.setLocaleLanguage(params.languageCode);
+    return await repository.setLocaleLanguage(params.language);
   }
 }
 
 class Params extends Equatable {
-  final String languageCode;
+  final Language language;
 
-  const Params({required this.languageCode});
+  const Params({required this.language});
 
   @override
-  List<Object?> get props => [languageCode];
+  List<Object?> get props => [language];
 }
