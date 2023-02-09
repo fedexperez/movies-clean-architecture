@@ -24,12 +24,24 @@ class _MovieSliderScreenState extends State<MovieSliderScreen> {
   @override
   void initState() {
     super.initState();
+    bool canCall = true;
+    double maxScrollPixels = 0;
 
-    scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent - 50) {
-        widget.onNextPage();
-        Future.delayed(const Duration(seconds: 2));
+    scrollController.addListener(() async {
+      if ((scrollController.position.maxScrollExtent > maxScrollPixels) &&
+          (canCall == false)) {
+        canCall = true;
+      }
+      if (canCall == false) {
+        return;
+      }
+      if ((scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 500)) {
+        if (canCall) {
+          canCall = false;
+          await widget.onNextPage();
+        }
+        maxScrollPixels = scrollController.position.maxScrollExtent;
       }
     });
   }
